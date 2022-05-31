@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { findAssetByName, generateMockHistory } from "./helpers";
 import { IHistory } from "./interfaces";
 import { useFetch } from "./hooks";
+import Chart from "./components/Chart";
+import "./App.css";
 
 function App() {
   const { loading, data, error } = useFetch(
@@ -11,18 +13,28 @@ function App() {
   const [tvlHistory, setTvlHistory] = useState<IHistory[] | null>(null);
   const [aprHistory, setAprHistory] = useState<IHistory[] | null>(null);
 
-  if (error) console.warn(error);
+  if (error) console.warn(error.message);
 
   useEffect(() => {
     if (data) setAsset(findAssetByName(data, "Hackerdao-WBNB"));
     if (asset) setTvlHistory(asset.selected_farm[0].tvlStakedHistory);
-    if (tvlHistory)
+    if (tvlHistory) {
       setAprHistory(generateMockHistory(tvlHistory, asset.aprYearly, 5));
+    }
   }, [asset, data, tvlHistory]);
 
-  console.log(aprHistory);
-
-  return <div className="App">{loading ? "loading...." : "asdada"}</div>;
+  return (
+    <div className="App">
+      {loading ? (
+        "loading...."
+      ) : (
+        <div className="col-2">
+          <Chart data={aprHistory} name="Asset APR(y)" />
+          <Chart data={tvlHistory} name="Asset TVL" />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default App;

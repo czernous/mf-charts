@@ -1,0 +1,15 @@
+.chart__wrapper {
+  height: 500px;
+  background: #2f3557;
+  color: #fff;
+  padding: 2rem 0;
+  max-width: 700px;
+  width: 100%;
+  border-radius: 16px 16px 0 0;
+}
+
+.chart__title {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 0;
+}
